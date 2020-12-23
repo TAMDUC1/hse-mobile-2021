@@ -1,0 +1,74 @@
+<ion-header no-border>
+  <ion-toolbar color="pvn">
+    <div class="content_header">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <img style="vertical-align: baseline" src="http://222.255.252.41/content/uploads/logo.jpg" alt="">
+      <div class="text">
+        <div class="big_text">TẬP ĐOÀN DẦU KHÍ QUỐC GIA VIỆT NAM </div>
+        <div class="small_text">HỆ THỐNG CSDL AN TOÀN SỨC KHỎE MÔI TRƯỜNG </div>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" style="width: 100%">
+<!--
+  <ion-row style="border-color: transparent!important;">
+    <ion-col class="search" size="12">
+      <ion-item lines="none">
+        <ion-icon name="search" (click)="seach_text()" slot="end"></ion-icon>
+        <ion-input [(ngModel)]="key_search" placeholder="Tìm kiếm "></ion-input>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+-->
+  <div id="card-list">
+    <ion-card (click)="openAuditsList()">
+      <ion-card-header>
+        Đang kiểm tra
+      </ion-card-header>
+
+    </ion-card>
+    <ion-card (click)="openAuditsList()">
+      <ion-card-header>
+        Đã kiểm tra
+      </ion-card-header>
+
+    </ion-card>
+<!--
+    <ion-list >
+      &lt;!&ndash; <ion-card *ngFor="let audit of CompArrs">
+         <ion-card-header>
+           {{audit.data.comp.title.vi}}
+         </ion-card-header>
+         <div text-right padding>
+           <ion-button fill="clear" slot="primary"  color="primary" [routerLink]="['/','tabs','tab2','audits-detail',audit.uuid]"> Process</ion-button>
+         </div>
+       </ion-card>&ndash;&gt;
+      <ion-card color="" class="real-card-audit slide-up"  *ngFor="let audit of filteredCompArrs , let i = index"    (click)="openDetail('side-menu/audit/tabs/tab1/audit-detail',audit.uuid)" >
+        <ion-card-header>
+          <ion-label><ion-text color="pvn"><h2 class="main-b-header7">{{i +1 }}. {{audit.data.comp.title.vi}}</h2></ion-text></ion-label>
+          <ion-card-subtitle>{{audit.data.comp.addr.vi}}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content class="card1">
+          &lt;!&ndash;
+                    <ion-label><ion-text color="pvn"><h2 class="main-b-header7">{{i +1 }}. {{audit.data.comp.title.vi}}</h2></ion-text></ion-label>
+          &ndash;&gt;
+          &lt;!&ndash;<ion-item lines="none">
+            <ion-button fill="outline" expand="block" slot="end" color="success"  [routerLink]="['/','side-menu','audit']" >
+              Xem
+              </ion-button>
+          </ion-item>&ndash;&gt;
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+-->
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-title slot="start" style="color: blue">
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

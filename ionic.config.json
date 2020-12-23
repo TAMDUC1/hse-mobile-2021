@@ -1,0 +1,8 @@
+{
+  "name": "Library_PVN",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
+  "type": "angular"
+}

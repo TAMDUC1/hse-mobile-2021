@@ -1,0 +1,62 @@
+
+
+<ion-content>
+ <!-- <ion-item lines="none">
+    <ion-label>
+      <ion-text color="greengrab">
+        <h1 class="main-header1">Sign in</h1>
+      </ion-text>
+    </ion-label>
+  </ion-item>-->
+  <ion-grid>
+    <ion-row>
+      <ion-col class="search" size="4" size-lg offset="4" style="margin-top: 50px">
+        <img style="vertical-align: baseline" src="http://222.255.252.41/content/uploads/logo.jpg" alt="">
+      </ion-col>
+      <ion-col class="search ion-text-center" size="12" size-lg  >
+
+        <div class="text" style="color: #00a6ec ; font-weight: bolder">
+          <div class="big_text">Tập đoàn Dầu khí Quốc gia Việt Nam </div>
+        </div>
+
+      </ion-col>
+    </ion-row>
+    <br>
+    <form [formGroup]="credentialsForm" (ngSubmit)="onSubmit()">
+      <ion-row>
+        <ion-col class="search ion-text-center" size="12" size-lg  >
+          <ion-text>
+            <h2 style="color: orange; font-weight: bolder">
+              Đăng Nhập
+            </h2>
+          </ion-text>
+        </ion-col>
+        <!--<ion-col class="" size="10" offset="1" size-lg  >
+          <ion-text>
+            Bạn vui lòng đăng nhập
+          </ion-text>
+        </ion-col>-->
+        <div class="login-form">
+          <ion-list lines="none" class="ion-margin-top">
+            <ion-item>
+              <ion-icon slot="start" color="lightgrey" name="ios-mail-outline"></ion-icon>
+              <ion-input formControlName="Username" type="email" placeholder="Tài khoản" ></ion-input>
+
+            </ion-item>
+
+            <ion-item>
+              <ion-icon slot="start" color="lightgrey" name="ios-key-outline"></ion-icon>
+              <ion-input formControlName="PasswordMobile" type="password" placeholder="Mật Khẩu" ></ion-input>
+
+            </ion-item>
+
+          </ion-list>
+          <ion-button mode="ios" color="orange" expand="block" type="submit"   routerDirection="root">
+            Đăng Nhập
+          </ion-button>
+        </div>
+      </ion-row>
+    </form>
+
+  </ion-grid>
+</ion-content>

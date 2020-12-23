@@ -1,0 +1,45 @@
+<ion-header no-border>
+  <ion-toolbar color="pvn">
+    <div class="content_header">
+      <ion-buttons slot="start">
+        <ion-button size="large" (click)="gotoBack()"> <ion-icon name="arrow-back" style="color: white"></ion-icon> </ion-button>
+      </ion-buttons>
+      <img style="vertical-align: baseline" src="http://222.255.252.41/content/uploads/logo.jpg" alt="">
+      <div class="text">
+        <div class="big_text">TẬP ĐOÀN DẦU KHÍ QUỐC GIA VIỆT NAM </div>
+        <div class="small_text">HỆ THỐNG CSDL AN TOÀN SỨC KHỎE MÔI TRƯỜNG </div>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div style="text-align: center; font-weight: bold; font-size: 16">
+    <ion-label color="primary" style="">  {{data.data.comp.title.vi}}</ion-label>
+
+  </div>
+
+  <div class="profile-form"  *ngFor="let c of data.data.checkList" >
+    <ion-card class="info-card-2" ng-if="c.title.vi !='Rủi ro'">
+      <ion-list>
+        <ion-item  *ngIf="c.children.length > 0">
+          <ion-label style="font-weight: 700;"  color="pvn" >
+            Lĩnh vực: {{c.title.vi}}
+          </ion-label>
+        </ion-item>
+        <ng-container *ngFor="let d of c?.children,let i = index">
+          <ion-item  *ngIf="d.checked"  (click)="onOpenModal(d,c.title.vi,c.id )" class="item-accordion"  >
+            <ion-label style="font-size: 15px">
+              {{d.title.vi}}
+            </ion-label>
+          </ion-item>
+        </ng-container>
+      </ion-list>
+    </ion-card>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-title slot="start" style="color: blue">
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

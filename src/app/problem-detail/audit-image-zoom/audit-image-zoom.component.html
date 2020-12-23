@@ -1,0 +1,35 @@
+
+<ion-content fullscreen >
+  <ion-fab vertical="top" horizontal="end" slot="fixed" >
+    <ion-fab-button (click)="onCancel()" color="dark">
+      <ion-icon name="ios-close-circle-outline"  ></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-slides [options]="sliderOpts" #slider>
+    <ion-slide *ngFor="let image of filesArr, let i = index ">
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
+        <ion-fab-button (click)="presentAlert(image.uuid_img,i)" color="red">
+          <ion-icon name="ios-close-circle-outline"  >Delete</ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+      <ion-grid>
+        <ion-row>
+          <div class="swiper-zoom-container">
+            <img src="{{ image.path }}">
+          </div>
+        </ion-row>
+        <!--<ion-button  mode="ios" color="red" fill="outline" expand="block" class="ion-margin-top"  (click)="presentAlert(image.uuid,i)">
+          Delete
+        </ion-button>-->
+        <!--<ion-row >
+&lt;!&ndash;
+            <ion-button  color="red" fill="outline" (click)="presentAlert(image.uuid,i)">Delete</ion-button>
+&ndash;&gt;
+          <ion-button  mode="ios" color="red" fill="outline" expand="block" class="ion-margin-top"  (click)="presentAlert(image.uuid,i)">
+            Delete
+          </ion-button>
+        </ion-row>-->
+      </ion-grid>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

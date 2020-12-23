@@ -1,0 +1,97 @@
+<ion-split-pane>
+  <ion-menu contentId="content">
+
+    <!-- <ion-header>
+          <ion-item lines="none">
+              <ion-thumbnail slot="start">
+                <img src="https://pbs.twimg.com/profile_images/1148952014036054016/xxv7lLvp.jpg">
+              </ion-thumbnail>
+              <ion-label>
+                <h2>ionic4 firebase fullapp</h2>
+                <p>Button on right</p>
+              </ion-label>
+
+            </ion-item>
+    </ion-header> -->
+    <!--***********  Side menu for android ***********-->
+    <!-- showWhen="android" -->
+    <!-- <div id="menu-ios" >
+        <ion-header class="menu-header">
+            <img class="user-avatar round" src =  "https://pbs.twimg.com/profile_images/834457277830541312/bYMCvtHD.jpg"/>
+            <p class="name">ionic4 firebase</p>
+            <p class="email">with firebase backend</p>
+        </ion-header>
+    </div> -->
+
+    <div id="menu-ios"  class="sideMenu-header"  color="gray">
+      <div class="menu-header">
+
+        <img class="user-avatar round" src = "https://pbs.twimg.com/profile_images/1148952014036054016/xxv7lLvp.jpg"/>
+        <p class="name">ionic 4</p>
+        <p class="email">with firebase fullapp </p>
+
+      </div>
+    </div>
+    <ion-content>
+      <!-- <ion-list>
+        <ion-menu-toggle auto-hide="false" *ngFor="let p of pages">
+          <ion-item [routerLink]="p.url" routerDirection="root" [class.active-item]="selectedPath.startsWith(p.url)">
+            <ion-label>
+              {{ p.title }}
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-item tappable routerLink="/login" routerDirection="root">
+          <ion-icon name="log-out" slot="start"></ion-icon>
+          Logout
+        </ion-item>
+
+      </ion-list> -->
+
+      <div *ngFor="let p of pages" class="ion-padding-right">
+
+        <!-- Standard Menu Item -->
+        <ion-menu-toggle *ngIf="p.url">
+          <ion-item [routerLink]="p.url" routerDirection="root" routerLinkActive="active">
+            <ion-icon [name]="p.icon" slot="start"></ion-icon>
+            <ion-label>
+              {{ p.title }}
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <!-- Item with Children -->
+
+        <ion-item button *ngIf="p.children?.length > 0" (click)="p.open = !p.open" [class.parent-active]="p.open" detail="false">
+          <ion-icon slot="start" name="ios-arrow-forward" size="small" *ngIf="!p.open"></ion-icon>
+          <ion-icon slot="start" name="ios-arrow-down" size="small" *ngIf="p.open"></ion-icon>
+          <ion-label>{{ p.title }}</ion-label>
+        </ion-item>
+
+        <!-- Children List for clicked Item -->
+        <ion-list *ngIf="p.open">
+          <ion-menu-toggle>
+            <ion-item *ngFor="let sub of p.children" class="sub-item" [routerLink]="sub.url" routerDirection="root"
+                      routerLinkActive="active">
+              <ion-icon [name]="sub.icon" slot="start"></ion-icon>
+              <ion-label>
+                {{ sub.title }}
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+
+      </div>
+
+
+      <!-- <ion-item tappable routerLink="/login" routerDirection="root">
+        <ion-icon name="log-out" slot="start"></ion-icon>
+        Logout
+      </ion-item> -->
+    </ion-content>
+
+  </ion-menu>
+
+  <ion-router-outlet id="content" main></ion-router-outlet>
+
+</ion-split-pane>

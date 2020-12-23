@@ -1,0 +1,51 @@
+<ion-header no-border>
+  <ion-toolbar color="pvn">
+    <div class="content_header">
+      <ion-buttons slot="start">
+
+        <ion-button size="large" (click)="gotoBack()"> <ion-icon name="arrow-back" style="color: white"></ion-icon> </ion-button>
+      </ion-buttons>
+      <img style="vertical-align: baseline" src="http://222.255.252.41/content/uploads/logo.jpg" alt="">
+      <div class="text">
+        <div class="big_text">TẬP ĐOÀN DẦU KHÍ QUỐC GIA VIỆT NAM </div>
+        <div class="small_text">HỆ THỐNG CSDL AN TOÀN SỨC KHỎE MÔI TRƯỜNG </div>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+      <ion-list >
+        <!-- <ion-card *ngFor="let audit of CompArrs">
+           <ion-card-header>
+             {{audit.data.comp.title.vi}}
+           </ion-card-header>
+           <div text-right padding>
+             <ion-button fill="clear" slot="primary"  color="primary" [routerLink]="['/','tabs','tab2','audits-detail',audit.uuid]"> Process</ion-button>
+           </div>
+         </ion-card>-->
+        <ion-card color="" class="real-card-audit slide-up"  *ngFor="let audit of filteredCompArrs , let i = index"    (click)="openDetail(audit,audit.data.officer)" >
+          <ion-card-header>
+            <ion-label><ion-text color="pvn"><h2 class="main-b-header7">{{i +1 }}. {{audit.data.comp.title.vi}}</h2></ion-text></ion-label>
+            <ion-card-subtitle>{{audit.data.comp.addr.vi}}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content class="card1">
+            <!--
+                      <ion-label><ion-text color="pvn"><h2 class="main-b-header7">{{i +1 }}. {{audit.data.comp.title.vi}}</h2></ion-text></ion-label>
+            -->
+            <!--<ion-item lines="none">
+              <ion-button fill="outline" expand="block" slot="end" color="success"  [routerLink]="['/','side-menu','audit']" >
+                Xem
+                </ion-button>
+            </ion-item>-->
+          </ion-card-content>
+        </ion-card>
+      </ion-list>
+
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-title slot="start" style="color: blue">
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

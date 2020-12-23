@@ -1,0 +1,79 @@
+<ion-header no-border>
+  <ion-toolbar color="pvn">
+    <div class="content_header">
+      <ion-buttons slot="start">
+        <ion-button size="large" (click)="gotoBack()"> <ion-icon name="arrow-back" style="color: white"></ion-icon> </ion-button>
+      </ion-buttons>
+      <img style="vertical-align: baseline" src="http://222.255.252.41/content/uploads/logo.jpg" alt="">
+      <div class="text">
+        <div class="big_text">TẬP ĐOÀN DẦU KHÍ QUỐC GIA VIỆT NAM </div>
+        <div class="small_text">HỆ THỐNG CSDL AN TOÀN SỨC KHỎE MÔI TRƯỜNG </div>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>{{problem.title.vi}}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-list lines="none">
+      <ion-item>
+        <ion-textarea type="text"  rows=6 [(ngModel)]= problem.description></ion-textarea>
+      </ion-item>
+      <ion-item class ="selectOptions" color="#0ec254" >
+        <ion-label style="color: #3b493e">Đánh giá</ion-label>
+        <ion-select class="child" [(ngModel)]="problem.state"  ok-text="Xác nhận" style="color: #78927e"  cancel-text="Huỷ"  >
+          <ion-select-option  [ngClass]="{'child': problem.state === 'ok' }" class ="ok" value="ok" style="color: #0a9209">Đạt</ion-select-option>
+          <ion-select-option value="not"style="color: #920e1f">Không đạt</ion-select-option>
+          <ion-select-option value="improve" style="color: #78927e">Cải tiến</ion-select-option>
+          <ion-select-option value="noted" style="color: #78927e">Ghi nhận</ion-select-option>
+          <ion-select-option value="noapply"style="color: #918f92">Không áp dụng</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <div class="horizontal-scroll">
+        <ul style="white-space:nowrap">
+          <ng-container class="img-gallery" *ngFor="let image of filesArr ,let i = index">
+            <img (click)="openImageViewer(i)"
+                 style="display: inline; border-radius: 10px;width:100px;height: 80px;margin-right: 10px"
+                 [src]="image.path" />
+            <ion-item *ngIf="image.name.endsWith('MOV')"> Đoạn phim</ion-item>
+          </ng-container>
+        </ul>
+        <!--<div class="img-gallery margin" *ngFor="let image of filesArr ,let i = index" >
+          <img  *ngIf = "image.typeProblem == c.name+c.state" [src]="image.path"   (click)="openImageViewer(i)"/>
+        </div>-->
+      </div>
+      <!--
+            <div class="horizontal-scroll">
+              <ul style="white-space:nowrap">
+                <ng-container class="img-gallery" *ngFor="let image of filesArr ,let i = index">
+                  <img (click)="openImageViewer(i)"
+                       style="display: inline; border-radius: 10px;width:100px;height: 60px;margin-right: 10px"
+                       [src]="image.path" />
+                  <ion-item *ngIf="image.name.endsWith('MOV')"> Đoạn phim</ion-item>
+                </ng-container>
+              </ul>
+              &lt;!&ndash;<div class="img-gallery margin" *ngFor="let image of filesArr ,let i = index" >
+                <img  *ngIf = "image.typeProblem == c.name+c.state" [src]="image.path"   (click)="openImageViewer(i)"/>
+              </div>&ndash;&gt;
+            </div>
+      -->
+    </ion-list>
+  </ion-card>
+</ion-content>
+<ion-footer>
+  <ion-toolbar color="bluegrey-invert">
+    <ion-buttons slot="end" *ngIf="editAble">
+      <ion-button fill="clear" expand="full" color="pvn" (click)="selectMedia()">
+        <ion-icon slot="start" name="document"></ion-icon>
+        Đính Kèm File
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end" *ngIf="editAble">
+      <ion-button fill="clear" expand="full" color="pvn" (click)="save()">
+        Lưu
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

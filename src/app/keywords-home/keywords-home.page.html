@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="pvn">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <div  class="content_header">
+      <img style="vertical-align: baseline" src="http://222.255.252.41/content/uploads/logo.jpg" alt="">
+      <div class="text" >
+        <div class="big_text">TẬP ĐOÀN DẦU KHÍ QUỐC GIA VIỆT NAM </div>
+        <div class="small_text">Cơ sở dữ liệu an toan sức khoẻ môi trường </div>
+      </div>
+    </div>
+  </ion-toolbar >
+ <!-- <ion-toolbar color="light" style="padding-top: 5px">
+    <ion-searchbar color="" placeholder="Từ Khoá"
+                   [(ngModel)]="searchTerm"
+                   (ngModelChange)="filterDoc()"
+                   search-icon="ion-pin"></ion-searchbar>
+  </ion-toolbar>-->
+</ion-header>
+
+<ion-content padding>
+  <ion-searchbar color="" placeholder="Từ Khoá"
+                 [(ngModel)]="searchTerm"
+                 (ngModelChange)="filterDoc()"
+                 search-icon="ion-pin"></ion-searchbar>
+  <ion-item style="" class="document-title" [hidden]="searchTerm !== '' || searchTerm !== null" *ngFor="let doc of filteredDocArrs , let i = index">
+    <ion-text style="font-weight: bolder">
+      {{doc.title.vi}}
+    </ion-text>
+  </ion-item>
+  <div style="border-bottom: thin blue" [hidden]="searchTerm == '' || searchTerm == null" class="row" *ngFor="let doc of filteredDocArrs , let i = index">
+    <div class="col-2">{{doc.nd}}</div>
+    <div class="col-4">
+      <ul>
+        <li  style="font-weight: bold">{{doc.title.vi}}</li>
+        <ul>
+          <li *ngFor="let k of doc.keyWord" style="color: red!important;" (click)="viewDoc(doc.uuid,k.page)" >{{k.text}},trang {{k.page}}</li>
+        </ul>
+      </ul>
+    </div>
+    <div class="col-2">{{doc.tags.join(',')}}</div>
+  </div>
+
+</ion-content>

@@ -1,0 +1,205 @@
+ion-menu ion-content {
+  --background: var(--ion-item-background, var(--ion-background-color, #fff));
+
+}
+
+ion-menu.md ion-content {
+  --padding-start: 8px;
+  --padding-end: 8px;
+  --padding-top: 20px;
+  --padding-bottom: 20px;
+}
+
+ion-menu.md ion-list {
+  padding: 20px 0;
+}
+
+ion-menu.md ion-note {
+  margin-bottom: 30px;
+}
+
+ion-menu.md ion-list-header,
+ion-menu.md ion-note {
+  padding-left: 10px;
+}
+
+ion-menu.md ion-list#inbox-list {
+  border-bottom: 1px solid var(--ion-color-step-150, #d7d8da);
+}
+
+ion-menu.md ion-list#inbox-list ion-list-header {
+  font-size: 22px;
+  font-weight: 600;
+
+  min-height: 20px;
+}
+
+ion-menu.md ion-list#labels-list ion-list-header {
+  font-size: 14px;
+
+  margin-bottom: 18px;
+
+  color: #757575;
+
+  min-height: 26px;
+}
+
+ion-menu.md ion-item {
+  --padding-start: 10px;
+  --padding-end: 10px;
+  border-radius: 4px;
+}
+
+ion-menu.md ion-item.selected {
+  --background: rgba(var(--ion-color-primary-rgb), 0.14);
+}
+
+ion-menu.md ion-item.selected ion-icon {
+  color: var(--ion-color-primary);
+}
+
+ion-menu.md ion-item ion-icon {
+  color: #ff4251;
+}
+
+ion-menu.md ion-item ion-label {
+  font-weight: 500;
+}
+
+ion-menu.ios ion-content {
+  --padding-bottom: 20px;
+}
+
+ion-menu.ios ion-list {
+  padding: 20px 0 0 0;
+}
+
+ion-menu.ios ion-note {
+  line-height: 24px;
+  margin-bottom: 20px;
+}
+
+ion-menu.ios ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 50px;
+}
+
+ion-menu.ios ion-item.selected ion-icon {
+  color: var(--ion-color-primary);
+}
+
+ion-menu.ios ion-item ion-icon {
+  font-size: 20px;
+  color: #73849a;
+}
+
+ion-menu.ios ion-list#labels-list ion-list-header {
+  margin-bottom: 8px;
+}
+
+ion-menu.ios ion-list-header,
+ion-menu.ios ion-note {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+ion-menu.ios ion-note {
+  margin-bottom: 8px;
+}
+ion-icon {
+  color: #ff4251!important;
+}
+ion-note {
+  display: inline-block;
+  font-size: 16px;
+
+  color: var(--ion-color-medium-shade);
+}
+
+ion-item.selected {
+  --color: var(--ion-color-primary);
+}
+
+
+
+.active-item {
+  border-left: 8px solid var(--ion-color-primary);
+}
+
+#menu-material {
+  .list-box{
+    margin-top:190px;
+  }
+  .menu-header {
+    padding: 5px 15px;
+   // background-image: url('../assets/thuvien.jpg');
+    background-size: cover;
+    //background-color: color($colors, blue2);
+    color: white;
+    .name {
+      font-weight: 400;
+      font-size:18px;
+      margin-top: 10px;
+      margin-bottom: 3px;
+    }
+    .email {
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+    .user-avatar {
+      padding: .5em;
+      height: 12vh;
+      margin-top: 15px;
+      // border: 3px solid #fff;
+    }
+  }
+  h3,
+  .label
+  {
+    color: #616161;
+    font-weight: 400;
+  }
+  ion-icon {
+    color: #616161;
+  }
+}
+
+ion-header {
+  // background-image: url('../assets/md-bg1.jpg') !important;
+  // background-color: #999;
+
+  background-color: #999;
+
+}
+#menu-ios{
+  .menu-header {
+    text-align: center;
+    margin: auto;
+    // width: 50%;
+    // margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 5px 15px;
+    background-color: #fff;
+    color:#000;
+    .name {
+      margin-top:8px;
+      font-weight: 500;
+      font-size:14px;
+      margin-bottom: 3px;
+    }
+    .email {
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+    .user-avatar {
+      padding: .5em;
+      height: 15vh;
+      margin-top: 15px;
+      // border: 3px solid #fff;
+    }
+  }
+}
+ion-content.background{
+  --background: url(../assets/thuvien.jpg) 0 0/100% 100% no-repeat;
+}

@@ -1,0 +1,32 @@
+<ion-header no-border>
+  <ion-toolbar color="pvn">
+    <ion-title ></ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button color="green"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="medium" (click)="onCancel()">
+        <ion-icon slot="icon-only"  name="ios-arrow-down"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+  <!--<ion-refresher slot="fixed" (ionRefresh)="loadData(true, $event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>-->
+  <ion-fab vertical="top" horizontal="end" slot="fixed">
+
+    <ion-fab-button size="small" (click)="scrollToPage()">{{page}}</ion-fab-button>
+
+  </ion-fab>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button size="small" (click)="zoomIn()">+</ion-fab-button>
+    <ion-fab-button size="small" (click)="zoomOut()">-</ion-fab-button>
+
+  </ion-fab>
+  <pdf-viewer  [src]="src"  [fit-to-page]="true" original-size="false" [show-all]="true" [show-borders]="true" [zoom]="pdfZoom" (after-load-complete)="callBackFn($event)"></pdf-viewer>
+
+</ion-content>
