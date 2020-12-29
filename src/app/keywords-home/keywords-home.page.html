@@ -24,11 +24,14 @@
                  [(ngModel)]="searchTerm"
                  (ngModelChange)="filterDoc()"
                  search-icon="ion-pin"></ion-searchbar>
+  <div></div>
   <ion-item style="" class="document-title" [hidden]="searchTerm !== '' || searchTerm !== null" *ngFor="let doc of filteredDocArrs , let i = index">
     <ion-text style="font-weight: bolder">
       {{doc.title.vi}}
     </ion-text>
   </ion-item>
+
+<!--
   <div style="border-bottom: thin blue" [hidden]="searchTerm == '' || searchTerm == null" class="row" *ngFor="let doc of filteredDocArrs , let i = index">
     <div class="col-2">{{doc.nd}}</div>
     <div class="col-4">
@@ -41,5 +44,76 @@
     </div>
     <div class="col-2">{{doc.tags.join(',')}}</div>
   </div>
+-->
+  <div>
+    <div *ngIf="lst.luat.array.length >0">
+      <ion-list *ngFor="let item of lst.luat.array"></ion-list>
+<!--
+      <div style="border-bottom: thin blue" [hidden]="searchTerm == '' || searchTerm == null" class="row" *ngFor="let doc of lst.luat , let i = index">
+&lt;!&ndash;
+        <div class="col-2">{{doc.nd}}</div>
+&ndash;&gt;
+        <div class="col-4">
+          <ul>
+            <li  style="font-weight: bold">{{doc.title.vi}}</li>
+            <ul>
+              <li *ngFor="let k of doc.keyWord" style="color: red!important;" (click)="viewDoc(doc.uuid,k.page)" >{{k.text}},trang {{k.page}}</li>
+            </ul>
+          </ul>
+        </div>
+        <div class="col-2">{{doc.tags.join(',')}}</div>
+      </div>
+-->
+    </div>
+  </div>
+  <div *ngIf="lst2[0].array.length > 0">
+    <ion-list *ngFor="let item of lst2 ; let i = index" class="accordion-list" detail="false" lines="none" no-padding>
+      <ion-item class="categoryBtn" tappable (click)="openKeywordsCategory(item)" >
 
+<!--
+      <ion-item tappable (click)="test()" [ngClass]="{'section-active ': item.open, 'section': !item.open}" *ngIf="item.array">
+-->
+       <!-- <ion-icon slot="start" name="arrow-forward" *ngIf="!item.open">
+        </ion-icon>
+        <ion-icon slot="start" name="arrow-down" *ngIf="item.open">
+        </ion-icon>-->
+        <ion-label>
+          {{item.title}}
+        </ion-label>
+      </ion-item>
+     <!-- <div *ngIf="item.array && item.open">
+       &lt;!&ndash; <ion-list *ngFor="let doc of item.array ; let i = index">
+          <div class="col-2">{{doc.nd}}</div>
+          <div class="col-4">
+            <ul>
+              <li  style="font-weight: bold">{{doc.title.vi}}</li>
+              <ul>
+                <li *ngFor="let k of doc.keyWord" style="color: red!important;" (click)="viewDoc(doc.uuid,k.page)" >{{k.text}},trang {{k.page}}</li>
+              </ul>
+            </ul>
+          </div>
+          <div class="col-2">{{doc.tags.join(',')}}</div>
+        </ion-list>&ndash;&gt;
+        <ion-item  *ngFor="let doc of item.array ; let i = index">
+          <ion-grid>
+            <ion-row style="padding: 3px; border-top: none;border-left:none;border-right: none;border-radius: 0px ;border-color: #d2ceff!important; " >
+              <ion-col size="12" class="ion-text-start">
+                <ion-text style="font-size: medium">
+                  {{doc.title.vi}}
+                </ion-text>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </div>-->
+    </ion-list>
+  </div>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-title slot="start" style="color: blue">
+      © HSE-PVN
+    </ion-title>
+
+  </ion-toolbar>
+</ion-footer>

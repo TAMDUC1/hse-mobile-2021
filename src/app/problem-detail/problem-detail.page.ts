@@ -1,6 +1,7 @@
 import {ChangeDetectorRef, Component, Input, OnInit ,SimpleChanges, OnChanges} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ActionSheetController, AlertController, LoadingController, ModalController, NavController, ToastController} from '@ionic/angular';
+import {ActionSheetController,Platform, AlertController, LoadingController, ModalController, NavController, ToastController} from '@ionic/angular';
+
 import {AuditService} from '../services/data/audit.service';
 import { environment } from '../../environments/environment';
 import {HTTP} from '@ionic-native/http/ngx';
@@ -41,10 +42,15 @@ export class ProblemDetailPage implements OnInit {
   problem: any;
   currentAudit: any;
   currentLv : any;
+  currentFile = {
+    path :'',
+    name : ''
+  };
   requestObject: any = null;
   private message: string;
   private authEmail;
   constructor(private route: ActivatedRoute,
+              private plt: Platform,
               private router: Router,
               private alertCtrl: AlertController,
               private navCtrl : NavController,
@@ -70,19 +76,33 @@ export class ProblemDetailPage implements OnInit {
       }
     });
   }
-  ionViewWillEnter() {
+  reloadFile(){
     this.auditData.File.subscribe((file) => {
       this.filesArr = file.filter(e => e.typeProblem === this.problem.title.vi);
-      console.log('this.file', this.filesArr);
+      console.log('this.fileArr', this.filesArr);
     });
-    console.log('this.file', this.filesArr);
+    console.log('this.fileArr', this.filesArr);
+  }
+  ionViewWillEnter() {
+    this.reloadFile();
   }
   ngOnInit() {
+    this.plt.ready().then(() => {
+      let path = this.file.dataDirectory;
+      this.file.checkDir(path, MEDIA_FOLDER_NAME).then(
+          () => {
+            this.loadFiles();
+          },
+          err => {
+            this.file.createDir(path, MEDIA_FOLDER_NAME, false);
+          }
+      );
+    });
     this.authEmail = this.route.snapshot.data['authEmail'];
     this.currentAudit = this.auditData.getAudit();
     if(this.currentAudit.data.officer){
       this.currentAudit.data.officer.forEach(e =>{
-        if(e.email ===  this.authEmail){
+        if(e.email ===  this.authEmail || this.authEmail === 'admin@local'){
           this.editAble = true;
         }
       })
@@ -215,42 +235,79 @@ export class ProblemDetailPage implements OnInit {
       });*/
 
   }
-
   captureImage() {
     this.mediaCapture.captureImage().then(
         (data: MediaFile[]) => {
           if (data.length > 0) {
-            this.copyFileToLocalDir(data[0].fullPath);
+            this.copyFileToLocalDirDirect(data[0].fullPath, 'photo');
           }
         },
         (err: CaptureError) => console.error(err)
     );
     // this.ref.detectChanges();
   }
-
-  recordAudio() {
-    this.mediaCapture.captureAudio().then(
-        (data: MediaFile[]) => {
-          if (data.length > 0) {
-            this.copyFileToLocalDir(data[0].fullPath);
-          }
-        },
-        (err: CaptureError) => console.error(err)
-    );
-
-  }
-
   recordVideo() {
     this.mediaCapture.captureVideo().then(
         (data: MediaFile[]) => {
           if (data.length > 0) {
-            this.copyFileToLocalDir(data[0].fullPath);
+            this.copyFileToLocalDirDirect(data[0].fullPath,'video');
           }
         },
         (err: CaptureError) => console.error(err)
     );
 
   }
+  recordAudio() {
+    this.mediaCapture.captureAudio().then(
+        (data: MediaFile[]) => {
+          if (data.length > 0) {
+            this.copyFileToLocalDirDirect(data[0].fullPath,'audio');
+          }
+        },
+        (err: CaptureError) => console.error(err)
+    );
+
+  }
+  copyFileToLocalDirDirect(fullPath ,type ){
+    let myPath = fullPath;
+    // Make sure we copy from the right location
+    if (fullPath.indexOf('file://') < 0) {
+      myPath = 'file://' + fullPath;
+    }
+
+    const ext = myPath.split('.').pop();
+    const d = Date.now();
+    // const newName = `${d}.${ext}`;
+    const newName = `${this.uuidv4()}.${ext}`;
+    console.log('newname', newName);
+    const name = myPath.substr(myPath.lastIndexOf('/') + 1);
+    const copyFrom = myPath.substr(0, myPath.lastIndexOf('/') + 1);
+    const copyTo = this.file.dataDirectory + MEDIA_FOLDER_NAME;
+    this.file.copyFile(copyFrom, name, copyTo, newName).then(
+        success => {
+          this.file.listDir(this.file.dataDirectory, MEDIA_FOLDER_NAME).then(
+              res => {
+
+                console.log('resrrrr',res);
+                res.forEach((e,index) =>{
+                  if(e.name == newName){
+                    this.currentFile.path = e.nativeURL.substr(0, e.nativeURL.lastIndexOf('/') + 1);
+                    this.currentFile.name = e.name;
+                    this.startUpload(e,index,this.problem.title.vi);
+                  }
+                })
+
+              },
+              err => console.log('error loading files: ', err)
+          );
+        },
+        error => {
+          console.log('error: asdad', error);
+        }
+    );
+    this.ref.detectChanges();
+  }
+
   copyFileToLocalDir(fullPath) {
     let myPath = fullPath;
     // Make sure we copy from the right location
@@ -262,8 +319,6 @@ export class ProblemDetailPage implements OnInit {
     const d = Date.now();
     // const newName = `${d}.${ext}`;
     const newName = `${this.uuidv4()}.${ext}`;
-
-
     const name = myPath.substr(myPath.lastIndexOf('/') + 1);
     const copyFrom = myPath.substr(0, myPath.lastIndexOf('/') + 1);
     const copyTo = this.file.dataDirectory + MEDIA_FOLDER_NAME;
@@ -271,7 +326,6 @@ export class ProblemDetailPage implements OnInit {
         success => {
           this.loadFiles();
           //  this.onCancel();
-
         },
         error => {
           console.log('error: asdad', error);
@@ -279,12 +333,14 @@ export class ProblemDetailPage implements OnInit {
     );
     this.ref.detectChanges();
   }
-
+  openFileOnServer(path){
+    this.photoViewer.show(path, 'MY awesome image');
+  }
   openFile(f: FileEntry) {
-    console.log(f);
+ //   console.log(f);
     if (f.name.indexOf('.wav') > -1) {
       // We need to remove file:/// from the path for the audio plugin to work
-      console.log(f,'wav');
+    //  console.log(f,'wav');
       const path =  f.nativeURL.replace(/^file:\/\//, '');
       const audioFile: MediaObject = this.media.create(path);
       audioFile.play();
@@ -293,6 +349,9 @@ export class ProblemDetailPage implements OnInit {
       this.streamingMedia.playVideo(f.nativeURL);
     } else if (f.name.indexOf('.jpg') > -1) {
       // E.g: Use the Photoviewer to present an Image
+      //http://222.255.252.41/content/uploads/logo.jpg
+     // this.photoViewer.show('http://222.255.252.41/content/uploads/logo.jpg', 'image');
+
       this.photoViewer.show(f.nativeURL, 'MY awesome image');
     }
   }
@@ -305,8 +364,8 @@ export class ProblemDetailPage implements OnInit {
     }, err => console.log('error remove: ', err));
   }
   async startUpload(imgEntry,index,typeProblem) {
-    console.log(imgEntry);
-    console.log('upload');
+//    console.log(imgEntry);
+//    console.log('upload');
     const path = imgEntry.nativeURL;
     this.file.resolveLocalFilesystemUrl(path)
         .then(entry =>
@@ -319,11 +378,11 @@ export class ProblemDetailPage implements OnInit {
         });
   }
   async readFile(file: any,index,typeProblem) {
-    console.log(file);
-    console.log('read file');
+ //   console.log(file);
+ //   console.log('read file');
     const reader = getFileReader();
     reader.onloadend = () => {
-      console.log('vao day');
+   //   console.log('vao day');
       const formData = new FormData();
       const imgBlob = new Blob([reader.result], {
         type: file.type
@@ -336,7 +395,7 @@ export class ProblemDetailPage implements OnInit {
   }
 
   async uploadImageData(formData: FormData,type,index,typeProblem) {
-    console.log('typeProb uploadimagedata',typeProblem);
+ //   console.log('typeProb uploadimagedata',typeProblem);
     //  console.log('formdata', formData);
 
     const loading = await this.loadingController.create({
@@ -384,14 +443,17 @@ export class ProblemDetailPage implements OnInit {
               model : temp.model,
               modelUuid : this.currentAudit.uuid
             } ;
+
             /* var obj2 =  JSON.stringify(requestObject);
                this.HTTP.setDataSerializer('json');
-               this.HTTP.setDataSerializer( "utf8" );*/    //https://stackoverflow.com/questions/51417208/ionic-native-http-call-with-content-type-text-plan
+               this.HTTP.setDataSerializer( "utf8" );*/
+
+            //https://stackoverflow.com/questions/51417208/ionic-native-http-call-with-content-type-text-plan
 
             this.http.post(environment.coreFileUpload ,requestObject,httpOptions)
                 .subscribe(
                     data => {
-                      console.log('data 2020',data);
+                 //     console.log('data 2020',data);
                       var imgUrl =environment.upload;
                       var temp = JSON.parse(JSON.stringify(data));
                       temp.data = JSON.parse(temp.data);
@@ -409,15 +471,21 @@ export class ProblemDetailPage implements OnInit {
                         temp = file.concat(databack);
                         this.auditData.setFile(this.currentAudit.uuid,temp);
                       });
-                      console.log('requestObject',requestObject);
-                      this.deleteFile(this.files[index]);// delete after upload
-                      this.message ="Bạn Đã Gửi Thành Công" },
 
+                      this.file.removeFile(this.currentFile.path, this.currentFile.name).then(() => {
+
+                        this.loadFiles();
+                      }, err => console.log('error remove: ', err));
+
+
+
+                      this.message ="Bạn Đã Gửi Thành Công" },
                     error =>{console.log("error",error)}
                 )
             ;
-            console.log('data',data);
-            this.presentToast('File upload thành công.')
+         //   console.log('data',data);
+            this.presentToast('File upload thành công.');
+            this.reloadFile();
           } else {
             this.presentToast('File upload thất bại.')
           }
@@ -441,7 +509,7 @@ export class ProblemDetailPage implements OnInit {
   loadFiles() {
     this.file.listDir(this.file.dataDirectory, MEDIA_FOLDER_NAME).then(
         res => {
-          console.log('resrrrr',res);
+       //   console.log('resrrrr',res);
           this.files = [];
           this.imageArr = [];
           res.forEach(e=>{
@@ -452,17 +520,30 @@ export class ProblemDetailPage implements OnInit {
         err => console.log('error loading files: ', err)
     );
   }
-  openImageViewer(index, nd) {
+  openImageViewer(index) {
     this.modalCtrl.create({
       component: AuditImageZoomComponent,
       componentProps: {
         filesArr: this.filesArr,
         index: index,
-        nd: nd
+     //   nd: nd
       }
     }).then(modal => {
       modal.present();
-      console.log(this.filesArr);
+    //  console.log(this.filesArr);
     });
   }
+ /* playAudio(url) {
+    // Play the audio file at url
+    // @ts-ignore
+    var my_media = new Media(url,
+        // success callback
+        function() {},
+        // error callback
+        function(err) {}
+    );
+
+    // Play audio
+    my_media.play();
+  }*/
 }

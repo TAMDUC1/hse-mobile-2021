@@ -1,15 +1,17 @@
 
 <ion-content fullscreen >
-  <ion-fab vertical="top" horizontal="end" slot="fixed" >
-    <ion-fab-button (click)="onCancel()" color="dark">
-      <ion-icon name="ios-close-circle-outline"  ></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+<!--  <img src="{{ this.filesArr[index].path }}">
+  <ion-button  color="red" fill="outline" (click)="presentAlert(this.filesArr[index].uuid)">Delete</ion-button>-->
   <ion-slides [options]="sliderOpts" #slider>
     <ion-slide *ngFor="let image of filesArr, let i = index ">
+      <ion-fab horizontal="start" vertical="bottom" slot="fixed">
+        <ion-fab-button (click)="onCancel()" color="primary"  fill="outline" expand="block">
+          <ion-icon name="backspace" ></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
       <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
-        <ion-fab-button (click)="presentAlert(image.uuid_img,i)" color="red">
-          <ion-icon name="ios-close-circle-outline"  >Delete</ion-icon>
+        <ion-fab-button (click)="presentAlert(image.uuid_img,i)" color="red"  fill="outline" expand="block">
+          <ion-icon name="trash"></ion-icon>
         </ion-fab-button>
       </ion-fab>
       <ion-grid>
@@ -33,3 +35,4 @@
     </ion-slide>
   </ion-slides>
 </ion-content>
+

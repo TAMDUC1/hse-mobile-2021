@@ -1,8 +1,17 @@
-.selectOptions{
-  background: #0bb8cc;
- .child{
-   background: #3046CC;
-   color: red;
- }
 
+
+.description{
+  border-bottom: solid thin;
+  border-bottom-color: blue;
+  margin: 5px;
+  padding: 3px;
+}
+.ok{
+  color: green;
+}
+.notOk{
+  color: red;
+}
+.note{
+  color : gray;
 }

@@ -25,14 +25,20 @@
 -->
   <div id="card-list">
     <ion-card (click)="openAuditsList()">
-      <ion-card-header>
-        Đang kiểm tra
+      <ion-card-header >
+        <ion-text color="pvn">
+          Đang kiểm tra
+        </ion-text>
+
       </ion-card-header>
 
     </ion-card>
     <ion-card (click)="openAuditsList()">
       <ion-card-header>
-        Đã kiểm tra
+        <ion-text color="pvn">
+          Đã kiểm tra
+        </ion-text>
+
       </ion-card-header>
 
     </ion-card>
@@ -69,6 +75,9 @@
 <ion-footer>
   <ion-toolbar>
     <ion-title slot="start" style="color: blue">
+      © HSE-PVN
     </ion-title>
+
   </ion-toolbar>
 </ion-footer>
+

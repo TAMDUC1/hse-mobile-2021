@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="pvn">
+    <ion-buttons slot="end">
+      <ion-button (click)="onCancel()" >
+        <div style="color:white"> Quay lại </div>
+      </ion-button>
+  </ion-buttons>
+  </ion-toolbar >
+
+
+</ion-header>
+<ion-content>
+  <ion-item *ngFor="let item of data.array ; let i = index" class="accordion-list" detail="false" lines="none" no-padding>
+    <ion-grid>
+      <ion-row style="padding: 3px; border-top: none;border-left:none;border-right: none;border-radius: 0px ;border-color: #d2ceff!important; " >
+        <ion-col size="12" class="ion-text-start">
+          <div class="big_text">
+            {{item.nd}}
+          </div>
+          <ion-text style="font-size: small">
+            {{item.title.vi}}
+          </ion-text>
+        </ion-col>
+        <ion-col size="12" class="ion-text-end">
+          <ul style="list-style-type: none;">
+            <li *ngFor="let k of item.keyWord" style="color: red!important;" (click)="viewDoc(item.uuid,k.page)" >
+              <ion-text style="font-size: x-small">
+                {{k.text}} | : trang {{k.page}}<span style="color: #4c5fff"></span>
+              </ion-text>
+            </li>
+          </ul>
+        </ion-col>
+
+       <!-- <ion-col size="12" class="ion-text-end">
+          <ion-text style="font-size: x-small">
+            Số Ký Hiệu : <span style="color: red">
+
+          </span>
+          </ion-text>
+          <ion-text style="font-size: x-small">
+            | Ngày ban hành: <span style="color: #4c5fff">
+
+          </span>
+          </ion-text>
+        </ion-col>-->
+
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-title slot="start" style="color: blue">
+      © HSE-PVN
+    </ion-title>
+
+  </ion-toolbar>
+</ion-footer>

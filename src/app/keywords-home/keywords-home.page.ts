@@ -7,6 +7,7 @@ import { File } from '@ionic-native/File/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import {AuditService} from '../services/data/audit.service';
 import { DocumentDetailComponent} from './document-detail/document-detail.component';
+import { KeywordsCategoryComponent} from './keywords-category/keywords-category.component';
 
 const DEFAULT_ZOOM:number = 1;
 const ZOOM_STEP:number = 0.25;
@@ -36,7 +37,7 @@ export class KeywordsHomePage implements OnInit {
     this.filteredCompArrs = this.onFilter(value);*/
   }
   src="http://222.255.252.41/content/uploads/2020/";
-  private loading;
+  loading;
   constructor(
      // private ionicComponentService: IonicComponentService,
       private HTTP :HTTP,
@@ -75,6 +76,56 @@ export class KeywordsHomePage implements OnInit {
   lstKeywordNomarl = [];
   lstKeywordStandard = [];
   lstDocFormatTable = [];
+  lst = {
+    luat :
+        {
+          open : false,
+          array : []
+        },
+    nghidinh :  {
+      open : false,
+      array : []
+    },
+    thongtu : {
+      open : false,
+      array : []
+    },
+    qdtt : {
+      open : false,
+      array : []
+    },
+    hdtd :  {
+      open : false,
+      array : []
+    },
+  }
+  lst2 = [
+    {
+      title : 'Luật',
+      open : false,
+      array : []
+    },
+    {
+      title : 'Nghị định',
+      open : false,
+      array : []
+    },
+    {
+      title : 'Thông tư',
+      open : false,
+      array : []
+    },
+    {
+      title : 'Quyết định Thủ tướng',
+      open : false,
+      array : []
+    },
+    {
+      title : 'Hướng dẫn của Tập đoàn',
+      open : false,
+      array : []
+    },
+  ]
   ngOnInit() {
     this.getHTTP();
     this.getDoc();
@@ -147,7 +198,6 @@ export class KeywordsHomePage implements OnInit {
       this.loading = overlay;
       this.loading.present();
     });
-    console.log('path',this.file.dataDirectory);
     var url = 'http://222.255.252.41/api/CoreFileUploads1/'.concat(uuid);
     var urlDoc = 'http://222.255.252.41/content/uploads/';
     this.HTTP.get(url,{},{
@@ -164,7 +214,6 @@ export class KeywordsHomePage implements OnInit {
             console.log('url',urlDoc);
             urlDoc = this.replaceText(urlDoc);
           //  this.loading.dismiss();
-
             let path = this.file.dataDirectory + 'uuid.pdf';
             const transfer = this.ft.create();
             this.dataService.setDocument(uuid,'',page);
@@ -230,11 +279,6 @@ export class KeywordsHomePage implements OnInit {
   }
   onError(){
     console.log('errrrrr');
-  }
-  toggleSideMenu() {
-   // this.ionicComponentService.sideMenu();
-    // this.test.getapiServiceHse();
-    //this.menuCtrl.toggle(); //Add this method to your button click function
   }
   getDoc(){
     this.HTTP.get('http://222.255.252.41/api/CmsDocuments',{},{
@@ -340,10 +384,50 @@ export class KeywordsHomePage implements OnInit {
         }
     ).catch(err => this.requestObject = err);
   }
+
   filterDoc(){
+    this.filteredDocArrs = [];
+    this.lst2 = [
+      {
+        title : 'Luật',
+        open : false,
+        array : []
+      },
+      {
+        title : 'Nghị định',
+        open : false,
+        array : []
+      },
+      {
+        title : 'Thông tư',
+        open : false,
+        array : []
+      },
+      {
+        title : 'Quyết định Thủ tướng',
+        open : false,
+        array : []
+      },
+      {
+        title : 'Hướng dẫn của Tập đoàn',
+        open : false,
+        array : []
+      },
+    ];
+
+
     if(this.searchTerm == '' || this.searchTerm == null){
       this.filteredDocArrs = this.lstDocFormatTable;
-    }else{
+
+    }
+    else{
+      this.loadingCtrl.create({
+        message : "Loading..."
+      }).then((overlay)=>{
+        this.loading = overlay;
+        this.loading.present();
+        setTimeout(this.loading.dismiss(), 1000);
+      });
       let searchKey = this.changeLanguage(this.searchTerm);
       let searchResults = [];
       let lstKeyS = this.lstKeywordStandard.filter(l=> {
@@ -400,6 +484,7 @@ export class KeywordsHomePage implements OnInit {
       }
       if(searchResults.length == 0){
         this.lstDocFormatTable.forEach(obj => {
+          console.log('obj',obj);
           let result = Object.assign({}, obj);
           if (obj.title_lc.vi.indexOf(searchKey) >= 0 && !this.filteredDocArrs.find(r => r.uuid == result.uuid && r.nd == obj.title.vi)){
             result.keyWord = result.keyWord.filter(ff => {
@@ -423,10 +508,36 @@ export class KeywordsHomePage implements OnInit {
                   }
                 });
               }
-            })
+            });
           }
         });
+
       }
+
+    }
+    if( this.filteredDocArrs.length > 0){
+      this.filteredDocArrs.forEach(e =>{
+        if(e.tags[0] === 'Luật'){
+          this.lst.luat.array.push(e);
+          this.lst2[0].array.push(e);
+        }
+        if(e.tags[0] === 'Nghị định'){
+          this.lst.nghidinh.array.push(e);
+          this.lst2[1].array.push(e);
+        }
+        if(e.tags[0] === 'Thông tư'){
+          this.lst.thongtu.array.push(e);
+          this.lst2[2].array.push(e);
+        }
+        if(e.tags[0] === 'Quyết định Thủ tướng'){
+          this.lst.qdtt.array.push(e);
+          this.lst2[3].array.push(e);
+        }
+        if(e.tags[0] === 'Hướng dẫn của Tập đoàn'){
+          this.lst.hdtd.array.push(e);
+          this.lst2[4].array.push(e);
+        }
+      })
     }
   }
   async presentToast(text) {
@@ -437,5 +548,22 @@ export class KeywordsHomePage implements OnInit {
     });
     toast.present();
   }
+  toggleSection(index){
+    this.lst2[index].open = !this.lst2[index].open;
+    console.log('this.lst2[index].open',this.lst2[index].open);
+  }
+  openKeywordsCategory(item){
+    this.modalController.create({
+      component: KeywordsCategoryComponent,
+      backdropDismiss: false,
+      componentProps: {
+        src: '',
+        page : '',
+        data : item
+      }
+    }).then(modal => {
+      modal.present();
+    });
 
+  }
 }

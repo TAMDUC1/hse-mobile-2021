@@ -30,3 +30,11 @@
   <pdf-viewer  [src]="src"  [fit-to-page]="true" original-size="false" [show-all]="true" [show-borders]="true" [zoom]="pdfZoom" (after-load-complete)="callBackFn($event)"></pdf-viewer>
 
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-title slot="start" style="color: blue">
+      © HSE-PVN
+    </ion-title>
+
+  </ion-toolbar>
+</ion-footer>
