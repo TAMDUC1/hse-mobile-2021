@@ -1,22 +1,19 @@
 <ion-header no-border>
   <ion-toolbar color="pvn">
-    <ion-title ></ion-title>
-    <ion-buttons slot="start">
-      <ion-back-button color="green"></ion-back-button>
-    </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button color="medium" (click)="onCancel()">
-        <ion-icon slot="icon-only"  name="ios-arrow-down"></ion-icon>
+      <ion-button (click)="onCancel()" >
+        <div style="color:white"> Quay lại </div>
       </ion-button>
     </ion-buttons>
-  </ion-toolbar>
+  </ion-toolbar >
 </ion-header>
 <ion-content padding>
+  <ng2-pdfjs-viewer [page]="page"  pdfSrc="{{src}}"></ng2-pdfjs-viewer>
   <!--<ion-refresher slot="fixed" (ionRefresh)="loadData(true, $event)">
     <ion-refresher-content>
     </ion-refresher-content>
   </ion-refresher>-->
-  <ion-fab vertical="top" horizontal="end" slot="fixed">
+ <!-- <ion-fab vertical="top" horizontal="end" slot="fixed">
 
     <ion-fab-button size="small" (click)="scrollToPage()">{{page}}</ion-fab-button>
 
@@ -28,13 +25,12 @@
 
   </ion-fab>
   <pdf-viewer  [src]="src"  [fit-to-page]="true" original-size="false" [show-all]="true" [show-borders]="true" [zoom]="pdfZoom" (after-load-complete)="callBackFn($event)"></pdf-viewer>
-
+-->
 </ion-content>
 <ion-footer>
   <ion-toolbar>
     <ion-title slot="start" style="color: blue">
       © HSE-PVN
     </ion-title>
-
   </ion-toolbar>
 </ion-footer>

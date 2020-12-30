@@ -26,6 +26,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { Media } from '@ionic-native/media/ngx';
 import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 import { PdfViewerModule} from 'ng2-pdf-viewer';
+import { PdfJsViewerModule } from 'ng2-pdfjs-viewer'; // <-- Import PdfJsViewerModule module
 
 
 // @ts-ignore
@@ -59,6 +60,7 @@ export function jwtOptionsFactory(storage) {
               deps: [Storage],
           }
       }),
+      PdfJsViewerModule ,// <-- Add to declarations
       AppRoutingModule,
       FormsModule,
       ReactiveFormsModule ,

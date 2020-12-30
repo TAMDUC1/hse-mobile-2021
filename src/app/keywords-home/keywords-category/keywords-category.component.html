@@ -21,14 +21,15 @@
             {{item.title.vi}}
           </ion-text>
         </ion-col>
-        <ion-col size="12" class="ion-text-end">
+        <ion-col size="12" class="">
           <ul style="list-style-type: none;">
-            <li *ngFor="let k of item.keyWord" style="color: red!important;" (click)="viewDoc(item.uuid,k.page)" >
-              <ion-text style="font-size: x-small">
+            <li *ngFor="let k of item.keyWord" (click)="viewDoc(item.uuid,k.page)" >
+              <ion-text style="font-size: medium">
                 {{k.text}} | : trang {{k.page}}<span style="color: #4c5fff"></span>
               </ion-text>
             </li>
           </ul>
+
         </ion-col>
 
        <!-- <ion-col size="12" class="ion-text-end">

@@ -6,6 +6,7 @@ import {FileOpener} from '@ionic-native/file-opener/ngx';
 import {HTTP} from '@ionic-native/http/ngx';
 import {AuditService} from '../../services/data/audit.service';
 import {DocumentViewer} from '@ionic-native/document-viewer/ngx';
+import {DocumentDetailComponent} from '../document-detail/document-detail.component';
 
 @Component({
   selector: 'app-keywords-category',
@@ -24,6 +25,7 @@ export class KeywordsCategoryComponent implements OnInit {
               private dataService: AuditService,
               private platform : Platform,
               private document : DocumentViewer,
+              private modalController: ModalController,
 
   ) { }
   data : any;
@@ -58,8 +60,9 @@ export class KeywordsCategoryComponent implements OnInit {
             tempo.path = tempo.path.replace(/\\/g, '/');
             var link = tempo.path.concat(tempo.name);
             urlDoc = urlDoc.concat(link);
-            console.log('url',urlDoc);
             urlDoc = this.replaceText(urlDoc);
+            console.log('urldoc',urlDoc);
+
             //  this.loading.dismiss();
             let path = this.file.dataDirectory + 'uuid.pdf';
             const transfer = this.ft.create();
@@ -92,12 +95,55 @@ export class KeywordsCategoryComponent implements OnInit {
               let url = entry.toURL();
               if(this.platform.is('ios')){
                 this.loading.dismiss();
-                this.document.viewDocument(url,'application/pdf',{},this.onShow,this.onClose,this.onMissingApp,this.onError);
+
+                this.modalController.create({
+                  component: DocumentDetailComponent,
+                  backdropDismiss: false,
+                  componentProps: {
+                    src: urlDoc,
+                    page : page
+                  }
+                }).then(modal => {
+                  modal.present();
+                });
+
+
+              //  this.document.viewDocument(url,'application/pdf',{},this.onShow,this.onClose,this.onMissingApp,this.onError);
 
               } else{
                 this.loading.dismiss();
-                this.fileOpener.open(url, 'application/pdf');
+                this.modalController.create({
+                  component: DocumentDetailComponent,
+                  backdropDismiss: false,
+                  componentProps: {
+                    src: urlDoc,
+                    page : page
+                  }
+                }).then(modal => {
+                  modal.present();
+                });
+             //   this.fileOpener.open(url, 'application/pdf');
               }
+              /*
+                    // doc bang viewDocument
+                    transfer.download(urlDoc,path + uuid + ".pdf").then(entry =>{
+                        let url = entry.toURL();
+                        console.log('url2',url);
+                        if(this.platform.is('ios')){
+                            this.loading.dismiss();
+
+                            this.document.viewDocument(url,'application/pdf',{},this.onShow,this.onClose,this.onMissingApp,this.onError);
+
+                        } else{
+                            this.loading.dismiss();
+                            this.fileOpener.open(url, 'application/pdf');
+                        }
+                    })
+*/
+
+
+
+
             }).catch(err =>{
               console.log('err ft',err);
             })

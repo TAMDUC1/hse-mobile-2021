@@ -23,8 +23,8 @@
   <ion-searchbar color="" placeholder="Từ Khoá"
                  [(ngModel)]="searchTerm"
                  (ngModelChange)="filterDoc()"
+                   inputmode="search"
                  search-icon="ion-pin"></ion-searchbar>
-  <div></div>
   <ion-item style="" class="document-title" [hidden]="searchTerm !== '' || searchTerm !== null" *ngFor="let doc of filteredDocArrs , let i = index">
     <ion-text style="font-weight: bolder">
       {{doc.title.vi}}

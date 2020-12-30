@@ -33,7 +33,7 @@ export class DocumentDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.scrollToPage();
+  //  this.scrollToPage();
   }
   onCancel(){
     this.modalCtrl.dismiss(null,'cancel');
